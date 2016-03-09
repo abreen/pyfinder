@@ -14,6 +14,17 @@ default. This library will first attempt to find Python interpreters at
 the directories listed in `PATH`, but will fall back to hard-coded interpreter
 locations.
 
+This library provides an alternative to packaging the Python interpreter
+with your Java application, if, for example
+
+*   you don't want the added hassle of doing so, and you have confidence
+    that your users either already have the appropriate Python installed, or
+*   you don't want your app's install size to be giant, or
+*   your application is not dependent on one version of Python, and you'd
+    like to support future versions of Python (e.g., if you are building
+    an IDE/code editor and you'd like to support using future versions of
+    Python).
+
 
 ## Example
 
