@@ -47,7 +47,7 @@ Try using the other variants of the `findAll()` method. On my machine,
         System.out.println(i);
 
     System.out.println("only Python 2:");
-    for (PythonInterpreter i : finder.findBetweenInclusive(new PythonVersion(2), new PythonVersion(3)))
+    for (PythonInterpreter i : finder.findBetween(new PythonVersion(2), new PythonVersion(3)))
         System.out.println(i);
 
 produces the following output:

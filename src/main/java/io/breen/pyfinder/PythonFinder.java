@@ -182,7 +182,7 @@ public class PythonFinder {
         });
     }
 
-    public List<PythonInterpreter> findBetweenInclusive(PythonVersion v1, PythonVersion v2)
+    public List<PythonInterpreter> findBetween(PythonVersion v1, PythonVersion v2)
             throws IOException, InterruptedException
     {
         final PythonVersion lo, hi;
@@ -198,7 +198,7 @@ public class PythonFinder {
         return find(new VersionComparator() {
             @Override
             public boolean shouldInclude(PythonVersion other) {
-                return other.compareTo(lo) >= 0 && other.compareTo(hi) <= 0;
+                return other.compareTo(lo) >= 0 && other.compareTo(hi) < 0;
             }
         });
     }
@@ -232,7 +232,7 @@ public class PythonFinder {
 
         System.out.println("only Python 2:");
 
-        for (PythonInterpreter i : finder.findBetweenInclusive(new PythonVersion(2), new PythonVersion(3)))
+        for (PythonInterpreter i : finder.findBetween(new PythonVersion(2), new PythonVersion(3)))
             System.out.println(i);
     }
 }
