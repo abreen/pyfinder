@@ -79,59 +79,9 @@ public class PythonFinder {
         ArrayList<PythonInterpreter> all = new ArrayList<PythonInterpreter>(likelyPaths.size());
 
         for (Path p : likelyPaths) {
-            if (!Files.exists(p) || !Files.isExecutable(p))
-                continue;
-
-            String pathStr = p.toString();
-
-            ProcessBuilder pb1 = new ProcessBuilder(pathStr, "-c", "def f(): pass");
-
-            if (pb1.start().waitFor() == 0) {
-                /*
-                 * This path is probably valid for a Python interpreter; it exited OK for the command line
-                 * arguments above and parsed a basic Python function. (?)
-                 */
-
-                // get version string
-                ProcessBuilder pb2 = new ProcessBuilder(pathStr, "--version");
-
-                Process p2 = pb2.start();
-
-                String nextLine = null;
-
-                /*
-                 * Need readers for both stdout and stderr: Python 2 prints its version to stderr,
-                 * Python 3 prints it to stdout.
-                 */
-                BufferedReader outReader = new BufferedReader(new InputStreamReader(p2.getInputStream()));
-                BufferedReader errReader = new BufferedReader(new InputStreamReader(p2.getErrorStream()));
-
-                String outLastLine = null;
-                while ((nextLine = outReader.readLine()) != null)
-                    outLastLine = nextLine;
-
-                String errLastLine = null;
-                while ((nextLine = errReader.readLine()) != null)
-                    errLastLine = nextLine;
-
-                if (p2.waitFor() != 0 || (outLastLine == null && errLastLine == null)) {
-                    // error getting version string
-                    continue;
-                } else {
-                    try {
-                        PythonVersion version = PythonVersion.fromVersionString(
-                                outLastLine != null ? outLastLine : errLastLine
-                        );
-
-                        if (comparator.shouldInclude(version))
-                            all.add(new PythonInterpreter(p, version));
-
-                    } catch (IllegalArgumentException ignored) {}
-                }
-
-            } else {
-                // exited with error status
-            }
+            PythonInterpreter i = PythonInterpreter.fromPath(p);
+            if (i != null && comparator.shouldInclude(i.version))
+                all.add(i);
         }
 
         return all;

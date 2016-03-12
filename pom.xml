@@ -5,7 +5,7 @@
     <groupId>io.breen.pyfinder</groupId>
     <artifactId>pyfinder</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
 
     <name>pyfinder</name>
     <url>http://github.com/abreen/pyfinder</url>
